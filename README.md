@@ -57,62 +57,46 @@ Open you’re command-line tool
 
 For the backend, we are going to use Firebase(Firebase is a Backend-as-a-Service (BaaS) app development platform that provides hosted backend services such as (a real-time database, cloud storage, authentication, crash reporting, machine learning, remote configuration) and hosting for your static files. However, for storing and managing images, we will use Cloudinary, which is a cloud service that provides an easy-to-use solution for managing images and videos, including features for storing, transforming, and delivering media content. Cloudinary will handle the storage and retrieval of image files, while Firebase will handle the authentication and database functionalities.
 
-Let’s start…
+#### Let’s start…
 
 go to https://firebase.google.com/ and create an account then Let’s create a new project in firebase.
 
 Go to Firebase Console and click Add Project and then you have to go through some steps.
 
-First, we are going to build a fire_base app called holbegram:
+#### First, we are going to build a fire_base app called holbegram
 
+#### Second Disable Google Analytics for this project
 
-
-Second Disable Google Analytics for this project:
-
-
-
-Authentication
+#### Authentication
 
 Click on Enable the Authentication: Enable the Email/Password
 
 
-
-
-
-
-
-Database
+#### Database
 
 Well done! Now you are going to move to the next task which is creating a database.
 
 To do that follow the following steps:
 
-1- Go to Firestore Database then click on Create Database.
+* 1- Go to Firestore Database then click on Create Database.
 
-2- Choose “start in test mode”
+* 2- Choose “start in test mode”
 
+* 3- choose the location that is close to you.
 
+* 4- Go to rules:
 
-3- choose the location that is close to you.
-
-
-
-4- Go to rules:
-
-
-
-Finally, press Publish
+* Finally, press Publish
 
 Adding Firebase to our App
 
 So now let’s add Firebase to our app:
 
 If you want to use Android Follow the Android Support
-
 If you want to work with iOS follow the iOS Support
 
-Adding Android support
-Registering the App
+#### Adding Android support
+* Registering the App
 
 In order to add Android support to our Flutter application, select the Android logo from the dashboard. This brings us to the following screen:
 
@@ -137,7 +121,7 @@ defaultConfig {
 ...
 You can skip the app nickname and debug signing keys at this stage. Select Register app to continue.
 
-Downloading the Config File
+* Downloading the Config File
 
 The next step is to add the Firebase configuration file into our Flutter project. This is important as it contains the API keys and other critical information for Firebase to use.
 
@@ -147,7 +131,7 @@ Select Download google-services.json from this page:
 
 Next, move the google-services.json file to the android/app directory within the Flutter project.
 
-Adding the Firebase SDK
+* Adding the Firebase SDK
 
 We’ll now need to update our Gradle configuration to include the Google Services plugin.
 
@@ -196,12 +180,12 @@ From here, run your application on an Android device or simulator. If everything
 
 
 
-Adding iOS support
+#### Adding iOS support
 In order to add Firebase support for iOS, we have to follow a similar set of instructions.
 
 Head back over to the dashboard and select Add app and then iOS icon to be navigated to the setup process.
 
-Registering an App
+* Registering an App
 
 You Should have Xcode installed in your PC:
 
@@ -220,7 +204,7 @@ Now go back to your firebase and add the iOS Bundle ID
 
 after that Download the configuration file
 
-Downloading the Config File
+* Downloading the Config File
 
 Drag and Drop the file GoogleService-Info.plist and move this into the root of your Xcode project within Runner:
 
