@@ -13,7 +13,7 @@ class TextFieldInput extends StatelessWidget {
     required this.isPassword,
     required this.hintText,
     this.suffixIcon,
-    required tis.keyboardType,
+    required this.keyboardType,
     });
 
   @override
@@ -21,7 +21,7 @@ class TextFieldInput extends StatelessWidget {
     return TextField(
         controller: controller,
         cursorColor: const Color.fromARGB(218, 226, 37, 24),
-        keybordType: keyboardType,
+        keyboardType: keyboardType,
         obscureText: isPassword,
         textInputAction: TextInputAction.next,
 
