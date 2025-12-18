@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field.dart';
 import 'signup_screen.dart';
+import '../methods/auth_methods.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -98,8 +99,30 @@ class _LoginScreenState extends State<LoginScreen> {
                         backgroundColor: WidgetStateProperty.all(
                           const Color.fromARGB(218, 226, 37, 24),
                         ),
+                        shape: WidgetStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                        ),
                       ),
-                      onPressed: () {
+                      onPressed: () async {
+                        String res = await AuthMethods().login(
+                          email: emailController.text,
+                          password: passwordController.text,
+                        );
+                        if (res == "success") {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(content: Text("Login")),
+                            );
+                          }
+                        } else {
+                          if (context.mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text(res)),
+                            );
+                          }
+                        }
                       },
                       child: const Text(
                         'Log in',
