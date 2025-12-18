@@ -9,7 +9,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  // 1. Déclaration des variables demandées
+
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
   bool _passwordVisible = true;
@@ -17,10 +17,10 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   void initState() {
     super.initState();
-    _passwordVisible = true; // Par défaut le mot de passe est caché (logique inversée plus bas)
+    _passwordVisible = true; 
   }
 
-  // 2. Nettoyage de la mémoire (Dispose)
+ 
   @override
   void dispose() {
     emailController.dispose();
@@ -31,15 +31,15 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // SingleChildScrollView demandé dans le body
+
       body: SingleChildScrollView(
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Horizontally : min (selon consigne pour Column principale)
-          mainAxisAlignment: MainAxisAlignment.center, // Verticale : center
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const SizedBox(height: 28),
             
-            // Titre Holbegram (Billabong Font)
+
             const Text(
               'Holbegram',
               style: TextStyle(
@@ -48,22 +48,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             
-            // Logo Image
-            // ⚠️ Assure-toi que ton image s'appelle bien logo.png ou change le nom ici
             Image.asset(
               'assets/images/logo.png', 
               width: 80,
               height: 60,
             ),
 
-            // Padding horizontal 20
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 children: [
                   const SizedBox(height: 28),
                   
-                  // --- CHAMP EMAIL ---
                   TextFieldInput(
                     controller: emailController,
                     hintText: 'Email',
@@ -73,14 +69,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   
                   const SizedBox(height: 24),
                   
-                  // --- CHAMP MOT DE PASSE ---
+
                   TextFieldInput(
                     controller: passwordController,
                     hintText: 'Password',
-                    // Note: La consigne dit "obscureText takes ispassword".
-                    // Si _passwordVisible est true (par défaut), on veut voir le texte ? 
-                    // Non, la convention c'est: true = caché.
-                    // On suit la logique standard : si visible = false, on cache.
                     isPassword: _passwordVisible, 
                     keyboardType: TextInputType.visiblePassword,
                     suffixIcon: IconButton(
@@ -89,7 +81,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           _passwordVisible = !_passwordVisible;
                         });
                       },
-                      // Changement d'icône selon l'état
                       icon: Icon(
                         _passwordVisible ? Icons.visibility_off : Icons.visibility,
                       ),
@@ -98,7 +89,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 28),
 
-                  // --- BOUTON LOGIN ---
                   SizedBox(
                     height: 48,
                     width: double.infinity,
@@ -109,7 +99,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       onPressed: () {
-                        // Vide pour le moment
                       },
                       child: const Text(
                         'Log in',
@@ -120,7 +109,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 24),
 
-                  // --- ROW: Forgot details ---
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -129,16 +117,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         'Get help logging in',
                         style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      Flexible(flex: 0, child: Container()), // Container vide demandé
+                      Flexible(flex: 0, child: Container()),
                     ],
                   ),
 
                   const SizedBox(height: 24),
                   
-                  // --- Divider ---
                   const Divider(thickness: 2),
                   
-                  // --- Sign Up Link ---
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 12),
                     child: Row(
@@ -147,7 +133,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         const Text("Don't have an account? "),
                         TextButton(
                           onPressed: () {
-                             // Vide pour le moment
                           },
                           child: const Text(
                             'Sign up',
@@ -163,7 +148,6 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 10),
 
-                  // --- OR Divider ---
                   const Row(
                     children: [
                       Flexible(child: Divider(thickness: 2)),
@@ -174,12 +158,10 @@ class _LoginScreenState extends State<LoginScreen> {
 
                   const SizedBox(height: 10),
 
-                  // --- Google Sign in ---
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      // Image Google (Lien réseau demandé)
                       Image.network(
                         'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/1200px-Google_%22G%22_logo.svg.png',
                         width: 40,
