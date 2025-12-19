@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/text_field.dart';
 import 'login_screen.dart';
+import 'upload_image_screen.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({super.key});
@@ -112,7 +113,38 @@ class _SignUpState extends State<SignUp> {
                           ),
                         ),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (emailController.text.isNotEmpty &&
+                            usernameController.text.isNotEmpty &&
+                            passwordController.text.isNotEmpty &&
+                            passwordConfirmController.text.isNotEmpty) {
+                          if (passwordController.text ==
+                              passwordConfirmController.text) {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AddPicture(
+                                  email: emailController.text,
+                                  username: usernameController.text,
+                                  password: passwordController.text,
+                                ),
+                              ),
+                            );
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text("Passwords do not match"),
+                              ),
+                            );
+                          }
+                        } else {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text("Please fill all fields"),
+                            ),
+                          );
+                        }
+                      },
                       child: const Text(
                         'Sign up',
                         style: TextStyle(color: Colors.white),
