@@ -1,10 +1,12 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:holbegram/providers/user_provider.dart'; 
 import 'package:holbegram/screens/pages/add_image.dart';
 import 'package:holbegram/screens/pages/favorite.dart';
 import 'package:holbegram/screens/pages/feed.dart';
 import 'package:holbegram/screens/pages/profile_screen.dart';
 import 'package:holbegram/screens/pages/search.dart';
+import 'package:provider/provider.dart';
 
 class BottomNav extends StatefulWidget {
   const BottomNav({super.key});
@@ -16,11 +18,24 @@ class BottomNav extends StatefulWidget {
 class _BottomNavState extends State<BottomNav> {
   int _currentIndex = 0;
   late PageController _pageController;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _pageController = PageController();
+    addData(); 
+  }
+
+  addData() async {
+    UserProvider userProvider = Provider.of(context, listen: false);
+    await userProvider.refreshUser();
+    
+    if (mounted) {
+       setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -37,6 +52,16 @@ class _BottomNavState extends State<BottomNav> {
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return const Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(
+            color: Colors.red,
+          ),
+        ),
+      );
+    }
+
     return Scaffold(
       body: PageView(
         controller: _pageController,
