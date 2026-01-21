@@ -85,4 +85,8 @@ class AuthMethods {
 
     return Users.fromSnap(documentSnapshot);
   }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
 }
