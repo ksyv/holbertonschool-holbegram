@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:holbegram/methods/auth_methods.dart';
+
 
 class AddPicture extends StatefulWidget {
   final String email;
@@ -125,7 +127,21 @@ class _AddPictureState extends State<AddPicture> {
                         ),
                       ),
                     ),
-                    onPressed: () {
+                    onPressed: () async {
+                      String res = await AuthMethods().signUpUser(
+                        email: widget.email,
+                        password: widget.password,
+                        username: widget.username,
+                        file: _image,
+                      );
+
+                      if (res == "success") {
+                        if (context.mounted) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text(res)),
+                          );
+                        }
+                      }
                     },
                     child: const Text(
                       'Next',

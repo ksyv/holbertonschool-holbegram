@@ -2,6 +2,7 @@ import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:holbegram/models/user.dart';
+import 'package:holbegram/screens/auth/methods/user_storage.dart';
 
 class AuthMethods {
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -46,12 +47,17 @@ class AuthMethods {
 
       User? user = userCredential.user;
 
+      String photoUrl = "https://assets.stickpng.com/images/585e4beacb11b227491c3399.png";
+      if (file != null) {
+         photoUrl = await StorageMethods().uploadImageToStorage(false, "profilePics", file);
+      }
+
       Users userModel = Users(
         uid: user!.uid,
         email: email,
         username: username,
         bio: "",
-        photoUrl: "",
+        photoUrl: photoUrl,
         followers: [],
         following: [],
         posts: [],
