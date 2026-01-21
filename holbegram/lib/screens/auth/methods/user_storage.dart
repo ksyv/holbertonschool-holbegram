@@ -17,7 +17,7 @@ class StorageMethods {
     var request = http.MultipartRequest('POST', uri);
     request.fields['upload_preset'] = cloudinaryPreset;
     request.fields['folder'] = childName;
-    request.fields['public_id'] = isPost ? uniqueId : '';
+    request.fields['public_id'] = uniqueId;
 
     var multipartFile = http.MultipartFile.fromBytes('file', file, filename: '$uniqueId.jpg');
     request.files.add(multipartFile);
@@ -28,6 +28,7 @@ class StorageMethods {
       var jsonResponse = jsonDecode(String.fromCharCodes(responseData));
       return jsonResponse['secure_url'];
     } else {
+      print("Erreur Cloudinary: ${response.statusCode}");
       throw Exception('Failed to upload image to Cloudinary');
     }
   }
