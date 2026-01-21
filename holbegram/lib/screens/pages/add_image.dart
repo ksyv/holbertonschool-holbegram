@@ -16,10 +16,14 @@ class AddImage extends StatefulWidget {
 class _AddImageState extends State<AddImage> {
   Uint8List? _file;
   final TextEditingController _captionController = TextEditingController();
-  bool _isLoading = false; 
-
+  bool _isLoading = false;
 
   void postImage(String uid, String username, String profImage) async {
+    if (_file == null) {
+      showSnackBar("Please select an image first", context);
+      return;
+    }
+
     setState(() {
       _isLoading = true;
     });
@@ -40,7 +44,7 @@ class _AddImageState extends State<AddImage> {
         if (context.mounted) {
           await Provider.of<UserProvider>(context, listen: false).refreshUser();
           showSnackBar("Posted!", context);
-          clearImage(); 
+          clearImage();
         }
       } else {
         setState(() {
@@ -136,34 +140,17 @@ class _AddImageState extends State<AddImage> {
   Widget build(BuildContext context) {
     final Users user = Provider.of<UserProvider>(context).getUser;
 
-    // Upload
-    if (_file == null) {
-      return Center(
-        child: IconButton(
-          icon: Image.asset(
-            'assets/images/upload.png', 
-            width: 260, 
-            height: 260,
-          ),
-          onPressed: () => _selectImage(context),
-        ),
-      );
-    }
-
-    // update
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.white,
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black),
-          onPressed: clearImage,
-        ),
         title: const Text(
-          'Post to',
+          'Add Image',
           style: TextStyle(
-              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+            color: Colors.black,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
         ),
-        centerTitle: false,
         actions: [
           TextButton(
             onPressed: () => postImage(
@@ -174,58 +161,85 @@ class _AddImageState extends State<AddImage> {
             child: const Text(
               'Post',
               style: TextStyle(
-                color: Colors.blueAccent,
+                color: Colors.redAccent,
                 fontWeight: FontWeight.bold,
-                fontSize: 16,
+                fontSize: 30,
+                fontFamily: 'Billabong',
               ),
             ),
           )
         ],
       ),
-      body: Column(
-        children: [
-          _isLoading
-              ? const LinearProgressIndicator()
-              : const Padding(padding: EdgeInsets.only(top: 0)),
-          const Divider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CircleAvatar(
-                backgroundImage: NetworkImage(user.photoUrl),
-              ),
-              SizedBox(
-                width: MediaQuery.of(context).size.width * 0.45,
-                child: TextField(
-                  controller: _captionController,
-                  decoration: const InputDecoration(
-                    hintText: 'Write a caption...',
-                    border: InputBorder.none,
-                  ),
-                  maxLines: 8,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            if (_isLoading) const LinearProgressIndicator(),
+            const SizedBox(height: 20),
+            const Center(
+              child: Text(
+                'Add Image',
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-              SizedBox(
-                height: 45,
-                width: 45,
-                child: AspectRatio(
-                  aspectRatio: 487 / 451,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: MemoryImage(_file!),
-                        fit: BoxFit.fill,
-                        alignment: FractionalOffset.topCenter,
-                      ),
-                    ),
-                  ),
+            ),
+            const SizedBox(height: 10),
+            const Center(
+              child: Text(
+                'Choose an image from your gallery or take a one.',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.grey,
                 ),
               ),
-              const Divider(),
-            ],
-          )
-        ],
+            ),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: TextField(
+                controller: _captionController,
+                decoration: const InputDecoration(
+                  hintText: 'Write a caption...',
+                  border: InputBorder.none,
+                ),
+                maxLines: 2,
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            GestureDetector(
+              onTap: () => _selectImage(context),
+              child: Center(
+                child: Container(
+                  height: 200,
+                  width: 200,
+                  decoration: BoxDecoration(
+                    color: Colors.grey[200],
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: _file == null
+                      ? Center(
+                          child: Image.asset(
+                            'assets/images/upload.png',
+                            width: 80,
+                            height: 80,
+                          ),
+                        )
+                      : Container(
+                          decoration: BoxDecoration(
+                            image: DecorationImage(
+                              image: MemoryImage(_file!),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
