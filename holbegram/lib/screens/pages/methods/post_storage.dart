@@ -51,4 +51,27 @@ class PostStorage {
       print(err.toString());
     }
   }
+
+  Future<String> addToFavorite({required String uid, required String postId}) async {
+    String res = "Some error occurred";
+    try {
+      DocumentSnapshot snap =
+          await _firestore.collection('users').doc(uid).get();
+      List saved = (snap.data()! as dynamic)['saved'];
+      if (saved.contains(postId)) {
+        await _firestore.collection('users').doc(uid).update({
+          'saved': FieldValue.arrayRemove([postId])
+        });
+        res = "Post removed from favorites";
+      } else {
+        await _firestore.collection('users').doc(uid).update({
+          'saved': FieldValue.arrayUnion([postId])
+        });
+        res = "Post saved to favorites";
+      }
+    } catch (err) {
+      res = err.toString();
+    }
+    return res;
+  }
 }

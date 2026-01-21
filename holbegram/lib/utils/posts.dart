@@ -1,6 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:holbegram/screens/pages/methods/post_storage.dart';
+import 'package:provider/provider.dart';
+import 'package:holbegram/providers/user_provider.dart';
+import 'package:holbegram/models/user.dart';
+
 
 class Posts extends StatefulWidget {
   const Posts({super.key});
@@ -12,6 +16,7 @@ class Posts extends StatefulWidget {
 class _PostsState extends State<Posts> {
   @override
   Widget build(BuildContext context) {
+    final Users user = Provider.of<UserProvider>(context).getUser;
     return StreamBuilder(
       stream: FirebaseFirestore.instance.collection('posts').snapshots(),
       builder: (context,
@@ -104,12 +109,12 @@ class _PostsState extends State<Posts> {
                     ),
 
                     // FOOTER
-                    const Padding(
-                      padding: EdgeInsets.only(top: 10.0, left: 20, right: 20),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0, left: 20, right: 20),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
+                          const Row( 
                             children: [
                               Icon(Icons.favorite_border, size: 28),
                               SizedBox(width: 20),
@@ -118,7 +123,25 @@ class _PostsState extends State<Posts> {
                               Icon(Icons.send_outlined, size: 28),
                             ],
                           ),
-                          Icon(Icons.bookmark_border, size: 28),
+
+                          IconButton(
+                            onPressed: () async {
+                              await PostStorage().addToFavorite(
+                                uid: user.uid,
+                                postId: data['postId'],
+                              );
+                              if (context.mounted) {
+                                await Provider.of<UserProvider>(context, listen: false).refreshUser();
+                              }
+                            },
+                            icon: Icon(
+                              user.saved.contains(data['postId'])
+                                  ? Icons.bookmark
+                                  : Icons.bookmark_border,
+                              size: 28,
+                              color: Colors.black,
+                            ),
+                          ),
                         ],
                       ),
                     ),
