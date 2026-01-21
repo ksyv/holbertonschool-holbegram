@@ -54,9 +54,9 @@ class _ProfileState extends State<Profile> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
-                          buildStatColumn(0, "posts"), 
-                          buildStatColumn(0, "followers"),
-                          buildStatColumn(0, "following"),
+                          buildStatColumn(user.posts.length, "posts"),
+                          buildStatColumn(user.followers.length, "followers"),
+                          buildStatColumn(user.following.length, "following"),
                         ],
                       ),
                     ),

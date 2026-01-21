@@ -36,6 +36,10 @@ class PostStorage {
       // Save
       await _firestore.collection('posts').doc(postId).set(post.toJson());
 
+      await _firestore.collection('users').doc(uid).update({
+        'posts': FieldValue.arrayUnion([postId])
+      });
+
       res = "Ok";
     } catch (err) {
       res = err.toString();
