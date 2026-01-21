@@ -38,6 +38,7 @@ class _AddImageState extends State<AddImage> {
           _isLoading = false;
         });
         if (context.mounted) {
+          await Provider.of<UserProvider>(context, listen: false).refreshUser();
           showSnackBar("Posted!", context);
           clearImage(); 
         }
