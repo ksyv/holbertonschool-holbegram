@@ -139,9 +139,10 @@ class _AddImageState extends State<AddImage> {
     if (_file == null) {
       return Center(
         child: IconButton(
-          icon: const Icon(
-            Icons.upload,
-            size: 50, 
+          icon: Image.asset(
+            'assets/images/upload.png', 
+            width: 260, 
+            height: 260,
           ),
           onPressed: () => _selectImage(context),
         ),
